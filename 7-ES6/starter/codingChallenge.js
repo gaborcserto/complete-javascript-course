@@ -23,20 +23,20 @@ HINT: Use some of the ES6 features: classes, subclasses, template strings, defau
 */
 
 class BasicData {
-	constructor(name, buildYear){
+	constructor(name, buildYear) {
 		this.name = name;
 		this.buildYear = buildYear;
 	}
 }
 
-class Parks extends BasicData{
+class Parks extends BasicData {
 	constructor(name, buildYear, trees, size) {
 		super(name, buildYear);
 		this.trees = trees;
-		this.size = size;
+		this.size = size; //km2
 	}
 
-	treeDensity(){
+	treeDensity() {
 		let density = this.trees / this.size;
 		console.log(`${this.name} has a tree density of ${density} trees per square km.`);
 	}
@@ -49,7 +49,7 @@ class Streets extends BasicData {
 		this.type = type;
 	}
 
-	classifyStreet () {
+	classifyStreet() {
 		const classification = new Map();
 
 		classification.set(1, 'tiny');
