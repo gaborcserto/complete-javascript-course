@@ -1,6 +1,17 @@
-// Global app controller
-import str from './models/Search';
-//import { add as a, multiply as m, ID } from "./views/searchView";
-import * as searcView from "./views/searchView";
+import axios from 'axios';
 
-console.log(`Using imported functions! ${searcView.add( searcView.ID, 2)} and ${searcView.multiply(3,5)}. ${str}`);
+async function getResults(query) {
+	const proxy = 'https://cors-anywhere.herokuapp.com/';
+	try {
+		const res = await axios(`${proxy}https://forkify-api.herokuapp.com/api/search?&q=${query}`);
+		const recipes = res.data.recipes;
+		console.log(res);
+		console.log(recipes);
+	} catch (error) {
+		alert(error);
+	}
+
+}
+getResults('pizza');
+//const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);
+// const res = await axios(`https://forkify-api.herokuapp.com/api/get?rId=${this.id}`);
