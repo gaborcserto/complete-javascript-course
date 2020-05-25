@@ -1,17 +1,50 @@
-import axios from 'axios';
+import Search from "./models/Search";
+import * as searchView from './views/searchView';
+import {elements, renderLoader, clearLoader} from "./views/base";
 
-async function getResults(query) {
-	const proxy = 'https://cors-anywhere.herokuapp.com/';
-	try {
-		const res = await axios(`${proxy}https://forkify-api.herokuapp.com/api/search?&q=${query}`);
-		const recipes = res.data.recipes;
-		console.log(res);
-		console.log(recipes);
-	} catch (error) {
-		alert(error);
+/** Global state of the app
+ * - Search object
+ * - Current recipe object
+ * - Shopping list object
+ * - Liked recipes
+ */
+const state = {};
+
+const controlSearch = async () => {
+	// 1) Get query from view
+	const query = searchView.getInput();
+	//console.log(query);
+
+	if (query) {
+		// 2) New search object
+		state.search = new Search(query);
+
+		// 3) Prepare UI for results
+		searchView.clearInput();
+		searchView.clearResults();
+		renderLoader(elements.searchRes);
+
+		// 4) Search for results
+		await state.search.getResults();
+
+		// 4) Render results on UI
+		//console.log(state.search.result);
+		clearLoader();
+		searchView.renderResults(state.search.result);
 	}
+};
 
-}
-getResults('pizza');
-//const res = await axios(`https://forkify-api.herokuapp.com/api/search?&q=${this.query}`);
-// const res = await axios(`https://forkify-api.herokuapp.com/api/get?rId=${this.id}`);
+elements.searchForm.addEventListener('submit', e => {
+	e.preventDefault();
+	controlSearch();
+});
+
+elements.searchResPages.addEventListener('click', e => {
+	const btn = e.target.closest('.btn-inline');
+	if (btn) {
+		const goToPage = parseInt(btn.dataset.goto, 10);
+		searchView.clearResults();
+		searchView.renderResults(state.search.result, goToPage);
+		//console.log(goToPage);
+	}
+})
