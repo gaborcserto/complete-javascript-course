@@ -1,4 +1,4 @@
-import {elements} from "./base";
+import { elements } from "./base";
 
 export const getInput = () => elements.searchInput.value;
 
@@ -9,7 +9,15 @@ export const clearInput = () => {
 export const clearResults = () => {
 	elements.searchResList.innerHTML = '';
 	elements.searchResPages.innerHTML = '';
-}
+};
+
+export const highLightSelected = id => {
+	const resultsArr = Array.from(document.querySelectorAll('.results__link'));
+	resultsArr.forEach(el => {
+		el.classList.remove('results__link--active');
+	});
+	document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+};
 
 /*
 // 'Pasta with tomato and spinach'
@@ -19,15 +27,17 @@ acc: 9 / acc + cur.length = 15 / newTitle = ['Pasta', 'with', 'tomato']
 acc: 15 / acc + cur.length = 18 / newTitle = ['Pasta', 'with', 'tomato']
 acc: 18 / acc + cur.length = 24 / newTitle = ['Pasta', 'with', 'tomato']
 */
-const limitRecipeTitle = (title, limit = 17) => {
+export const limitRecipeTitle = (title, limit = 17) => {
 	const newTitle = [];
 	if (title.length > limit) {
-		title.split(' ').reduce((acc, curr) => {
-			if (acc + curr.length <= limit) {
-				newTitle.push(curr);
+		title.split(' ').reduce((acc, cur) => {
+			if (acc + cur.length <= limit) {
+				newTitle.push(cur);
 			}
-			return acc + curr.length;
+			return acc + cur.length;
 		}, 0);
+
+		// return the result
 		return `${newTitle.join(' ')} ...`;
 	}
 	return title;
