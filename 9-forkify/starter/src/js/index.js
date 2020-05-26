@@ -22,7 +22,6 @@ const state = {};
 const controlSearch = async () => {
 	// 1) Get query from view
 	const query = searchView.getInput();
-	//console.log(query);
 
 	if (query) {
 		// 2) New search object
@@ -38,7 +37,6 @@ const controlSearch = async () => {
 			await state.search.getResults();
 
 			// 5) Render results on UI
-			//console.log(state.search.result);
 			clearLoader();
 			searchView.renderResults(state.search.result);
 		} catch (error) {
@@ -59,7 +57,6 @@ elements.searchResPages.addEventListener('click', e => {
 		const goToPage = parseInt(btn.dataset.goto, 10);
 		searchView.clearResults();
 		searchView.renderResults(state.search.result, goToPage);
-		//console.log(goToPage);
 	}
 });
 
@@ -69,7 +66,6 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
 	// Get ID from url
 	const id = window.location.hash.replace('#', '');
-	//console.log(id);
 
 	if (id) {
 		// Prepare UI for changes
@@ -92,7 +88,6 @@ const controlRecipe = async () => {
 			state.recipe.calcServings();
 
 			// Render recipe
-			//console.log(state.recipe);
 			clearLoader();
 			recipeView.renderRecipe(
 				state.recipe,
@@ -100,7 +95,6 @@ const controlRecipe = async () => {
 			);
 		} catch (error) {
 			alert('Error processing recipe!')
-			//console.log(error);
 		}
 	}
 }
@@ -160,7 +154,6 @@ const controlLike = () => {
 		likesView.toggleLikeBtn(true);
 
 		// Add like to UI list
-		//console.log(state.likes);
 		likesView.renderLike(newLike);
 
 		// User HAS liked current recipe
@@ -172,7 +165,6 @@ const controlLike = () => {
 		likesView.toggleLikeBtn(false);
 
 		// Remove like from UI list
-		//console.log(state.likes);
 		likesView.deleteLike(currentID);
 	}
 	likesView.toggleLikeMenu(state.likes.getNumLikes());
@@ -211,5 +203,4 @@ elements.recipe.addEventListener('click', e => {
 		// Like controller
 		controlLike();
 	}
-	//console.log(state.recipe);
 });
